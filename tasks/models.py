@@ -7,6 +7,7 @@ class Task(models.Model):
     name=models.CharField(max_length=255, unique=True)
     description=models.TextField()
     status=models.CharField(max_length=255)
+    deadline=models.DateTimeField(null=True)
     created_by=models.CharField(max_length=255, null=True)
     updated_by=models.CharField(max_length=255, null=True)
     created_on=models.DateTimeField(auto_now_add=True, null=True)

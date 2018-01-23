@@ -21,6 +21,8 @@ def user_login(request):
         token, user=AuthUser.authenticate_user(request.data['username'], request.data['password'])
         print user
         # serializer=UserSerializer(user)
+        Response.set_cookie('user', user.name)
+        Response.set_cookie('password', user.password)
         return Response(data={'data': {'token': token, 'user':user}, 'success': True}, status=status.HTTP_200_OK)
 
     except Exception as err:

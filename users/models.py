@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from rest_framework_jwt.settings import api_settings
 import jwt
 from django.conf import settings
+from django.contrib.sessions.models import Session
 
 class AuthUser(User):
 
@@ -24,8 +25,11 @@ class AuthUser(User):
         try:
             user = authenticate(username=username, password=password)
             if user is not None:
+                import datetime
                 payload ={'username':username, 'password': password}
                 token = {jwt.encode(payload, settings.SECRET_KEY)}
+                s=Session(session_key=username, session_data=payload, expire_date=datetime.datetime(2018, 4, 20, 13, 35, 12))
+                s.save()
                 return token, username
             else:
                 raise Exception('Invalid username or password')
